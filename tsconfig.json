@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 指定ECMAScript目标版本
+    "useDefineForClassFields": true, //此标志用作迁移到即将推出的类字段标准版本的一部分
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], //用于指定需要包含的模块，只有在这里列出的模块的声明文件才会被加载
+    "allowJs": false, // 允许 ts 编译器编译 js 文件
+    "skipLibCheck": true, // 跳过声明文件的类型检查
+    "esModuleInterop": false, // es 模块互操作，屏蔽 ESModule和CommonJS之间的差异
+    "allowSyntheticDefaultImports": true, // 允许通过import x from 'y' 即使模块没有显式指定 default 导出
+    "suppressImplicitAnyIndexErrors": true, // 开启索引到对象时禁止报告有关隐式anys的错误
+    "strict": true, // 同时开启 alwaysStrict, noImplicitAny, noImplicitThis 和 strictNullChecks
+    "forceConsistentCasingInFileNames": true, // 对文件名称强制区分大小写
+    "module": "ESNext", // 指定生成哪个模块系统代码
+    "moduleResolution": "Node", // 模块解析（查找）策略
+    "resolveJsonModule": true, // 防止 ts文件中引入json文件，会报如下红色波浪线
+    "isolatedModules": true, // 是否将没有 import/export 的文件视为旧（全局而非模块化）脚本文件
+    "noEmit": true, // 编译时不生成任何文件（只进行类型检查）
+    "jsx": "react-jsx", // 指定将 JSX 编译成什么形
+    "baseUrl": "./", //配置paths前先配置baseUrl
+    "paths": {
+      "@/*": ["src/*"] // 模块名到基于 baseUrl的路径映射的列表
+    },
+  },
+  "include": ["src/mock/**/*", "src/**/*", "src/*", "config/**/*", "typings.d.ts", "images.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

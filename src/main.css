@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* 重写基本SVG样式以使用Ant Design 图标*/
+svg {
+  vertical-align: initial;
+}
+
+/* 切换背景颜色 */
+.change-color{
+  @apply bg-white text-black dark:bg-gray-800 dark:text-white
+}
