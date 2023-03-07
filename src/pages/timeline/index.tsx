@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const TimeLine = () => {
-  return (
-    <div>
-      时间线
-    </div>
-  )
-}
+  return <div>时间线</div>;
+};
 
-export default TimeLine
+export default TimeLine;

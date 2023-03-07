@@ -2,7 +2,7 @@ import React from 'react';
 
 const Social = () => {
   return (
-    <div className="flex items-center justify-around w-72 h-20 mt-5 mx-auto rounded-xl bg-sky-300 transition duration-500 ease-in-out  transform hover:-translate-y-1 hover:scale-105">
+    <div className="flex items-center justify-around h-20 mt-5 mx-auto rounded-xl bg-sky-300 transition duration-500 ease-in-out  transform hover:-translate-y-1 hover:scale-105">
       <div className=" cursor-pointer">
         <svg
           t="1676557249155"

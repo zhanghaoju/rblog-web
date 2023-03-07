@@ -18,11 +18,13 @@ module.exports = {
     },
     extend: {
       width: {
-        "1200":"1279px"
+        "1200": "1200px",
+        "260": "300px"
       }
     }
   },
   plugins: [
-    require('@tailwindcss/line-clamp')
+    require('@tailwindcss/line-clamp'),
+    require("daisyui")
   ],
 }

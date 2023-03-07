@@ -2,29 +2,54 @@ import React from 'react';
 
 const Category = () => {
   const handleCategory = () => {
-    console.log("点击分类")
-  }
+    console.log('点击分类');
+  };
   return (
-    <div className="w-72 h-auto mt-5 rounded-xl mx-auto text-xl bg-sky-300 transition duration-500 ease-in-out  transform hover:-translate-y-1 hover:scale-105">
+    <div className="h-auto mt-5 pb-3 rounded-xl mx-auto text-xl bg-sky-300 transition duration-500 ease-in-out  transform hover:-translate-y-1 hover:scale-105">
       <p className="py-2 pl-2 shadow-sm">分类信息</p>
-      <span className='inline-block my-1 px-2 mx-2 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      <span className='inline-block my-1 px-2 mx-1 text-ls bg-indigo-400 rounded-lg shadow cursor-pointer' onClick={handleCategory}>js</span>
-      </div>
+      <p
+        className="flex justify-between items-center h-8 m-3 px-3  text-base bg-indigo-400 rounded-lg shadow cursor-pointer"
+        onClick={handleCategory}
+      >
+        <span>分类名称</span>
+        <span>数量</span>
+      </p>
+      <p
+        className="flex justify-between items-center h-8 m-3 px-3 text-base bg-indigo-400 rounded-lg shadow cursor-pointer"
+        onClick={handleCategory}
+      >
+        <span>分类名称</span>
+        <span>数量</span>
+      </p>
+      <p
+        className="flex justify-between items-center h-8 m-3 px-3 text-base bg-indigo-400 rounded-lg shadow cursor-pointer"
+        onClick={handleCategory}
+      >
+        <span>分类名称</span>
+        <span>数量</span>
+      </p>
+      <p
+        className="flex justify-between items-center h-8 m-3 px-3 text-base bg-indigo-400 rounded-lg shadow cursor-pointer"
+        onClick={handleCategory}
+      >
+        <span>分类名称</span>
+        <span>数量</span>
+      </p>
+      <p
+        className="flex justify-between items-center h-8 m-3 px-3 text-base bg-indigo-400 rounded-lg shadow cursor-pointer"
+        onClick={handleCategory}
+      >
+        <span>分类名称</span>
+        <span>数量</span>
+      </p>
+      <p
+        className="flex justify-between items-center h-8 m-3 px-3 text-base bg-indigo-400 rounded-lg shadow cursor-pointer"
+        onClick={handleCategory}
+      >
+        <span>分类名称</span>
+        <span>数量</span>
+      </p>
+    </div>
   );
 };
 
