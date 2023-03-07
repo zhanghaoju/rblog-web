@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const Message = () => {
-  return (
-    <div>
-      留言
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Message
+export default Message;

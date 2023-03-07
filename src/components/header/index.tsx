@@ -8,16 +8,26 @@ const NavBar = (props: any) => {
       title: '首页',
     },
     {
-      path: '/rblog/category',
-      title: '分类',
+      path: '/rblog/rindex',
+      title: '索引',
+      children: [
+        {
+          path: '/rblog/category',
+          title: '分类',
+        },
+        {
+          path: '/rblog/tags',
+          title: '标签',
+        },
+        {
+          path: '/rblog/timeline',
+          title: '时间线',
+        },
+      ],
     },
     {
-      path: '/rblog/tags',
-      title: '标签',
-    },
-    {
-      path: '/rblog/timeline',
-      title: '时间线',
+      path: '/rblog/message',
+      title: '随笔',
     },
     {
       path: '/rblog/message',
@@ -30,6 +40,8 @@ const NavBar = (props: any) => {
   ];
   // 移动端侧边栏显示
   const [navbar, setNavbar] = useState(false);
+  // 下拉框显示
+  const [show, setShow] = useState(false);
   // 路由选中
   const [selectKeys, setSelectKeys] = useState();
   useEffect(() => {
@@ -43,6 +55,13 @@ const NavBar = (props: any) => {
       document.removeEventListener('click', handleCancel, true);
     }
   }, [navbar]);
+  useEffect(() => {
+    if (show) {
+      document.addEventListener('click', handleDropdown, true);
+    } else {
+      document.removeEventListener('click', handleDropdown, true);
+    }
+  }, [show]);
   // 切换路由
   const handleRouter = (e: any) => {
     props.history.push(e);
@@ -52,7 +71,78 @@ const NavBar = (props: any) => {
     setNavbar(!navbar);
     document.removeEventListener('click', handleCancel, true);
   };
-
+  const handleDropdown = () => {
+    setShow(!show);
+    document.removeEventListener('click', handleDropdown, true);
+  };
+  // 遍历路由
+  const renderMenu = (menuList: any) => {
+    return menuList.map((item: any) => {
+      // 如果有子数组就渲染下拉菜单下的列表数据
+      if (item.children?.length > 0) {
+        return (
+          <div onClick={handleCancel}>
+            <ul
+              className="flex items-center justify-center font-medium text-xl w-20 h-16 cursor-pointer list-none text-gray-600"
+              onClick={handleDropdown}
+            >
+              <span>{item.title}</span>
+              <li>
+                <svg
+                  className="fill-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 -2 22 24"
+                >
+                  <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                </svg>
+              </li>
+            </ul>
+            {/* 下拉显示 */}
+            <ul
+              className={`flex flex-col items-center absolute top-13 right-52 w-28 rounded-2xl list-none bg-blue-400 ${
+                show ? 'block' : 'hidden'
+              }`}
+            >
+              <li className="cursor-pointer rounded-xl text-xl font-medium ">
+                {item.children.title}
+              </li>
+              {renderMenu(item.children)}
+            </ul>
+          </div>
+        );
+      }
+      // 如果没有 正常渲染列表 添加点击事件进行路由跳转
+      return (
+        <div onClick={handleCancel}>
+          <ul
+            className={`flex items-center font-medium text-xl list-none h-16
+                md:absolute md:left-0 md:h-full md:flex md:flex-col md:items-center
+                md:w-25  md:-translate-x-full md:z-20
+                 ${
+                   navbar
+                     ? 'md:translate-x-0 md:transform md:delay-200 md:duration-200 md:ease-in'
+                     : 'md:-translate-x-full'
+                 }
+                `}
+          >
+            <li
+              className={`px-5 cursor-pointer md:cursor-auto md:flex md:justify-center md:items-center  md:hover:text-white md:w-20 md:h-8 md:mt-12 md:text-base ${
+                selectKeys === item.path
+                  ? 'flex justify-center items-center w-15 h-8 rounded-xl bg-orange-400  md:rounded-xl md:h-8 md:px-1 md:bg-orange-400'
+                  : 'text-gray-600'
+              }`}
+              key={item.key}
+              onClick={() => handleRouter(item.path)}
+            >
+              {item.title}
+            </li>
+          </ul>
+        </div>
+      );
+    });
+  };
   return (
     <nav className="shadow  md:bg-white fixed w-full h-16 change-color z-20 md:static">
       <div className="flex justify-between h-16">
@@ -93,42 +183,16 @@ const NavBar = (props: any) => {
             <span className="text-xl ml-2 md:text-base md:ml-2">夜雨炊烟</span>
           </div>
         </div>
+        {/* navbar显示隐藏 */}
         <div
           className={`md:absolute md:z-10 md:bg-gray-600 md:w-full md:h-full md:opacity-20 md:transition-all ${
             navbar ? 'md:block' : 'md:hidden'
           }`}
         ></div>
-
         {/* 颜色主题 */}
         <div className="flex md:flex">
           {/* 导航栏 */}
-          <div onClick={handleCancel}>
-            <ul
-              className={`change-color flex items-center  font-medium text-xl list-none h-16
-                md:absolute md:left-0 md:h-full md:flex md:flex-col md:items-center
-                md:w-25  md:-translate-x-full md:z-20
-                 ${
-                   navbar
-                     ? 'md:translate-x-0 md:transform md:delay-200 md:duration-200 md:ease-in'
-                     : 'md:-translate-x-full'
-                 }
-                `}
-            >
-              {items.map((it, i) => (
-                <li
-                  className={`px-5 cursor-pointer md:cursor-auto md:flex md:justify-center md:items-center  md:hover:text-white md:w-20 md:h-8 md:mt-12 md:text-base ${
-                    selectKeys === it.path
-                      ? 'flex justify-center items-center w-15 h-8 rounded-xl bg-orange-400  md:rounded-xl md:h-8 md:px-1 md:bg-orange-400'
-                      : 'text-gray-600'
-                  }`}
-                  key={i}
-                  onClick={() => handleRouter(it.path)}
-                >
-                  {it.title}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {renderMenu(items)}
           <div className="flex items-center mr-5 ml-2 md:flex md:items-center md:mr-2">
             <Switcher />
           </div>
