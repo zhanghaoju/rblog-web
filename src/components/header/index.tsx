@@ -26,7 +26,7 @@ const NavBar = (props: any) => {
       ],
     },
     {
-      path: '/rblog/message',
+      path: '/rblog/informal',
       title: '随笔',
     },
     {
@@ -81,7 +81,7 @@ const NavBar = (props: any) => {
       // 如果有子数组就渲染下拉菜单下的列表数据
       if (item.children?.length > 0) {
         return (
-          <div onClick={handleCancel}>
+          <div onClick={handleCancel} key={item.path}>
             <ul
               className="flex items-center justify-center font-medium text-xl w-20 h-16 cursor-pointer list-none text-gray-600"
               onClick={handleDropdown}
@@ -101,21 +101,23 @@ const NavBar = (props: any) => {
             </ul>
             {/* 下拉显示 */}
             <ul
-              className={`flex flex-col items-center absolute top-13 right-52 w-28 rounded-2xl list-none bg-blue-400 ${
+              className={`flex flex-col justify-center items-center absolute top-13 right-72 w-28 rounded-2xl list-none bg-blue-400 ${
                 show ? 'block' : 'hidden'
               }`}
             >
-              <li className="cursor-pointer rounded-xl text-xl font-medium ">
-                {item.children.title}
+              <li
+                key={item.children.path}
+                className="flex flex-col items-center cursor-pointer rounded-xl text-xl font-medium"
+              >
+                {renderMenu(item.children)}
               </li>
-              {renderMenu(item.children)}
             </ul>
           </div>
         );
       }
       // 如果没有 正常渲染列表 添加点击事件进行路由跳转
       return (
-        <div onClick={handleCancel}>
+        <div onClick={handleCancel} key={item.path}>
           <ul
             className={`flex items-center font-medium text-xl list-none h-16
                 md:absolute md:left-0 md:h-full md:flex md:flex-col md:items-center
@@ -130,10 +132,9 @@ const NavBar = (props: any) => {
             <li
               className={`px-5 cursor-pointer md:cursor-auto md:flex md:justify-center md:items-center  md:hover:text-white md:w-20 md:h-8 md:mt-12 md:text-base ${
                 selectKeys === item.path
-                  ? 'flex justify-center items-center w-15 h-8 rounded-xl bg-orange-400  md:rounded-xl md:h-8 md:px-1 md:bg-orange-400'
-                  : 'text-gray-600'
+                  ? 'flex justify-center items-center w-15 h-8 rounded-xl  bg-orange-400  md:rounded-xl md:h-8 md:px-1 md:bg-orange-400'
+                  : 'flex justify-center items-center w-15 h-8 rounded-xl text-gray-600 hover:bg-orange-400'
               }`}
-              key={item.key}
               onClick={() => handleRouter(item.path)}
             >
               {item.title}

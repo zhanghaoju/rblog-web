@@ -1,18 +1,15 @@
 import React from 'react';
 import { Button, Col, Form, Input, Row } from 'antd';
 import { CloudUploadOutlined } from '@ant-design/icons';
-const Message = () => {
-  const onFinish = () => {};
+const Comment = (props: any) => {
+  console.log('获取文章标题：', props.title);
+  const onFinish = (values: any) => {
+    console.log('获取评论数据：', values);
+  };
   const onFinishFailed = () => {};
   return (
-    <div className="w-800 mx-auto">
-      <Form
-        // {...layout}
-        // form={form}
-        name="basic"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
+    <div className="w-800 mx-auto mt-20">
+      <Form name="basic" onFinish={onFinish} onFinishFailed={onFinishFailed}>
         <Row>
           <Col span={12}>
             <Form.Item
@@ -66,7 +63,7 @@ const Message = () => {
             style={{ float: 'right', position: 'absolute', bottom: '0', right: '0' }}
           >
             <CloudUploadOutlined />
-            &nbsp;发布留言
+            &nbsp;发布评论
           </Button>
         </Form.Item>
       </Form>
@@ -74,4 +71,4 @@ const Message = () => {
   );
 };
 
-export default Message;
+export default Comment;

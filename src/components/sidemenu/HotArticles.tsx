@@ -1,44 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
-const HotArticles = () => {
-  const handleLastUpdate = () => {
-    console.log('最近更新');
+const HotArticles = (props: any) => {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    let hotUpdateData = props.data.sort((curr: any, prev: any) => {
+      return prev.views - curr.views;
+    });
+    let newHotdata = hotUpdateData.slice(0, 6);
+    setList(newHotdata);
+  }, [props.data]);
+
+  const handleLastUpdate = (id: any) => {
+    props.history.push(`/rblog/article/detail/${id}`);
   };
   return (
     <div className=" mt-5 rounded-xl mx-auto text-xl bg-sky-300 transition duration-500 ease-in-out  transform hover:-translate-y-1 hover:scale-105">
       <p className="py-2 pl-2 shadow-sm">热门文章</p>
-      <span
-        className="inline-block mb-1 mt-2 px-2 mx-1 text-base cursor-pointer"
-        onClick={handleLastUpdate}
-      >
-        react页面滚动时导航栏的显示与隐藏react隐藏
-      </span>
-      <span
-        className="inline-block mb-1 mt-2 px-2 mx-1 text-base cursor-pointer"
-        onClick={handleLastUpdate}
-      >
-        react页面滚动时导航栏的显示与隐藏react隐藏
-      </span>
-      <span
-        className="inline-block mb-1 mt-2 px-2 mx-1 text-base cursor-pointer"
-        onClick={handleLastUpdate}
-      >
-        react页面滚动时导航栏的显示与隐藏react隐藏
-      </span>
-      <span
-        className="inline-block mb-1 mt-2 px-2 mx-1 text-base cursor-pointer"
-        onClick={handleLastUpdate}
-      >
-        react页面滚动时导航栏的显示与隐藏react隐藏
-      </span>
-      <span
-        className="inline-block mb-1 mt-2 px-2 mx-1 text-base cursor-pointer"
-        onClick={handleLastUpdate}
-      >
-        react页面滚动时导航栏的显示与隐藏react隐藏
-      </span>
+      {list.map((item: any) => {
+        return (
+          <div key={item._id}>
+            <span
+              className="inline-block mb-1 mt-2 px-2 mx-1 text-base cursor-pointer"
+              onClick={() => handleLastUpdate(item._id)}
+            >
+              {item.title}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-export default HotArticles;
+export default withRouter(HotArticles);
