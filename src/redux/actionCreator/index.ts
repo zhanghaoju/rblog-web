@@ -5,6 +5,9 @@ import {
   ARTICLE_ALL_LIST,
   ARTICLE_VIEWS,
   ARTICLE_COMMENT_LIST,
+  ARTICLE_COMMENT_INSERT,
+  MESSAGE_LIST,
+  MESSAGE_INSERT,
 } from '@/redux/constants';
 // 文章列表
 export const asyncArticleListAction = (
@@ -59,6 +62,39 @@ export const asyncArticleCommentsAction = (
     dispatch({
       type: ARTICLE_COMMENT_LIST,
       comments: res,
+    });
+    return res;
+  };
+};
+// 新增评论
+export const asyncArticleCommentInsertAction = (data: any) => {
+  return async (dispatch: any) => {
+    const res = await api.insertArticleComment(data);
+    dispatch({
+      type: ARTICLE_COMMENT_INSERT,
+      comments: {},
+    });
+    return res;
+  };
+};
+// 获取留言列表
+export const asyncMessageListAction = (page: Number, pageSize: Number, auditStatus: any) => {
+  return async (dispatch: any) => {
+    const res = await api.getMessageList(page, pageSize, auditStatus);
+    dispatch({
+      type: MESSAGE_LIST,
+      messages: res,
+    });
+    return res;
+  };
+};
+// 新增留言
+export const asyncMessageInsertAction = (data: any) => {
+  return async (dispatch: any) => {
+    const res = await api.insertMessage(data);
+    dispatch({
+      type: MESSAGE_INSERT,
+      message: {},
     });
     return res;
   };

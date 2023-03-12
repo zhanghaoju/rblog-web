@@ -8,7 +8,10 @@ const MyPagination = (props: any) => {
   const [currentPage, setCurrentPage] = useState(0);
   // 每页显示条数
   const [pageSize, setPageSize] = useState(0);
+  // 组件类型
+  const [text, setText] = useState();
   useEffect(() => {
+    setText(props.text);
     setTotal(props.total);
     setCurrentPage(props.currentPage);
     setPageSize(props.pageSize);
@@ -22,21 +25,34 @@ const MyPagination = (props: any) => {
     <div>
       {/* 中文语言包 */}
       <ConfigProvider locale={zhCN}>
-        <Pagination
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            fontSize: '20px',
-          }}
-          current={currentPage} // 当前页
-          pageSize={pageSize} // 每页条数
-          total={total} // 数据总数
-          pageSizeOptions={[8, 15, 50, 100]} // 每页显示多少条
-          onChange={onChangePage} // 监听pageSize回调
-          // showSizeChanger // 展示 pageSize 切换器
-          showQuickJumper // 快速跳转至某页
-          showTotal={total => `共 ${total} 篇文章`} // 展示页码
-        />
+        {text === 'cm' ? (
+          <Pagination
+            style={{
+              display: 'flex',
+              justifyContent: 'right',
+            }}
+            current={currentPage} // 当前页
+            pageSize={pageSize} // 每页条数
+            total={total} // 数据总数
+            pageSizeOptions={[10, 20, 50, 100]} // 每页显示多少条
+            onChange={onChangePage} // 监听pageSize回调
+            showSizeChanger // 展示 pageSize 切换器
+            // showQuickJumper // 快速跳转至某页
+            showTotal={total => `共 ${total} 条`} // 展示页码
+          />
+        ) : (
+          <Pagination
+            style={{ display: 'flex', justifyContent: 'center', fontSize: '20px' }}
+            current={currentPage} // 当前页
+            pageSize={pageSize} // 每页条数
+            total={total} // 数据总数
+            pageSizeOptions={[10, 20, 50, 100]} // 每页显示多少条
+            onChange={onChangePage} // 监听pageSize回调
+            showSizeChanger // 展示 pageSize 切换器
+            // showQuickJumper // 快速跳转至某页
+            showTotal={total => `共 ${total} 篇文章`} // 展示页码
+          />
+        )}
       </ConfigProvider>
     </div>
   );

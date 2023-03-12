@@ -26,8 +26,6 @@ const Content = (props: any) => {
     Boolean(t) === false ? (tag = '') : (tag = t);
     props.BlogActions.asyncArticleListAction(currentPage, pageSize, 1, 1, category, tag).then(
       (res: any) => {
-        console.log('是否获取数据：', res);
-
         // 获取文章
         let { data, totalCount, page, pageSize } = res.data;
         setList(data);
@@ -56,15 +54,12 @@ const Content = (props: any) => {
     );
   };
   const handleTags = (name: any) => {
-    console.log('点击标签', name);
     props.history.push(`/rblog/tags?t=${name}`);
   };
   const handleCategory = (name: any) => {
-    console.log('点击分类', name);
     props.history.push(`/rblog/category?c=${name}`);
   };
   const handleArticle = (id: any) => {
-    console.log('点击文章', props);
     props.history.push(`/rblog/article/detail/${id}`);
   };
   return (

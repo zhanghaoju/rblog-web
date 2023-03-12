@@ -37,5 +37,19 @@ const api = {
       `/iblog/article/comments?page=${page}&&pageSize=${pageSize}&&articleTitle=${articleTitle}&&auditStatus=${auditStatus}`
     );
   },
+  // 新增评论
+  insertArticleComment(params: any) {
+    return axios.post(`/iblog/article/comments/insert`, params);
+  },
+  // 获取留言列表
+  getMessageList(page: any, pageSize: any, auditStatus: any) {
+    return axios.get(
+      `/iblog/message/list?page=${page}&&pageSize=${pageSize}&&auditStatus=${auditStatus}`
+    );
+  },
+  // 新增留言
+  insertMessage(params: any) {
+    return axios.post(`/iblog/message/insert`, params);
+  },
 };
 export default api;
