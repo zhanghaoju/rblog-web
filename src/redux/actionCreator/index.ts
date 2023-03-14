@@ -3,6 +3,7 @@ import api from '@/api';
 import {
   ARTICLE_LIST,
   ARTICLE_ALL_LIST,
+  ARTICLE_SEARCH_LIST,
   ARTICLE_VIEWS,
   ARTICLE_COMMENT_LIST,
   ARTICLE_COMMENT_INSERT,
@@ -39,6 +40,21 @@ export const asyncArticleAllListAction = (status: Number, publishStatus: Number)
     return res;
   };
 };
+// 搜索的结果
+export const asyncArticleSearchListAction = (
+  status: Number,
+  publishStatus: Number,
+  title: String
+) => {
+  return async (dispatch: any) => {
+    const res = await api.getArticleSearchList(status, publishStatus, title);
+    dispatch({
+      type: ARTICLE_SEARCH_LIST,
+      articles: res,
+    });
+    return res;
+  };
+};
 // 更新访问数量
 export const asyncArticleViewsAction = (params: any) => {
   return async (dispatch: any) => {
@@ -51,14 +67,9 @@ export const asyncArticleViewsAction = (params: any) => {
   };
 };
 // 获取评论列表
-export const asyncArticleCommentsAction = (
-  page: Number,
-  pageSize: Number,
-  articleTitle: any,
-  auditStatus: any
-) => {
+export const asyncArticleCommentsAction = (page: Number, pageSize: Number, articleTitle: any) => {
   return async (dispatch: any) => {
-    const res = await api.getArticleComments(page, pageSize, articleTitle, auditStatus);
+    const res = await api.getArticleComments(page, pageSize, articleTitle);
     dispatch({
       type: ARTICLE_COMMENT_LIST,
       comments: res,

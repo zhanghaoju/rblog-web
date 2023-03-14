@@ -1,6 +1,11 @@
-import { useEffect, useState } from 'react';
+import { Input, InputRef, List, Modal, Spin } from 'antd';
+import { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Switcher from '../theme/Switcher';
+import { SearchOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as BlogActions from '@/redux/actionCreator';
 const NavBar = (props: any) => {
   const items = [
     {
@@ -26,12 +31,16 @@ const NavBar = (props: any) => {
       ],
     },
     {
-      path: '/rblog/informal',
+      path: '/rblog/essay',
       title: '随笔',
     },
     {
       path: '/rblog/message',
       title: '留言',
+    },
+    {
+      path: '/rblog/friendly',
+      title: '友链',
     },
     {
       path: '/rblog/about',
@@ -44,6 +53,13 @@ const NavBar = (props: any) => {
   const [show, setShow] = useState(false);
   // 路由选中
   const [selectKeys, setSelectKeys] = useState();
+  // 搜索时，模态框的显示隐藏
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // 搜索输入的文本信息
+  const [searchVal, setSearchVal] = useState<any>('');
+  // 符合条件的数据
+  const [list, setList] = useState([]);
+  const inputRef = useRef<InputRef>(null);
   useEffect(() => {
     // 获取动态路由信息
     setSelectKeys(props.location.pathname);
@@ -81,9 +97,9 @@ const NavBar = (props: any) => {
       // 如果有子数组就渲染下拉菜单下的列表数据
       if (item.children?.length > 0) {
         return (
-          <div onClick={handleCancel} key={item.path}>
+          <div onClick={handleCancel} key={item.path} className="relative">
             <ul
-              className="flex items-center justify-center font-medium text-xl w-20 h-16 cursor-pointer list-none text-gray-600"
+              className="flex items-center justify-center font-medium text-xl w-24 h-16 cursor-pointer list-none text-gray-600"
               onClick={handleDropdown}
             >
               <span>{item.title}</span>
@@ -101,7 +117,7 @@ const NavBar = (props: any) => {
             </ul>
             {/* 下拉显示 */}
             <ul
-              className={`flex flex-col justify-center items-center absolute top-13 right-72 w-28 rounded-2xl list-none bg-blue-400 ${
+              className={`flex flex-col justify-center items-center absolute top-15 left-0 w-28 rounded-2xl list-none bg-blue-400 ${
                 show ? 'block' : 'hidden'
               }`}
             >
@@ -132,8 +148,8 @@ const NavBar = (props: any) => {
             <li
               className={`px-5 cursor-pointer md:cursor-auto md:flex md:justify-center md:items-center  md:hover:text-white md:w-20 md:h-8 md:mt-12 md:text-base ${
                 selectKeys === item.path
-                  ? 'flex justify-center items-center w-15 h-8 rounded-xl  bg-orange-400  md:rounded-xl md:h-8 md:px-1 md:bg-orange-400'
-                  : 'flex justify-center items-center w-15 h-8 rounded-xl text-gray-600 hover:bg-orange-400'
+                  ? 'flex justify-center items-center w-15 h-8 ml-2 rounded-xl  bg-orange-400  md:rounded-xl md:h-8 md:px-1 md:bg-orange-400'
+                  : 'flex justify-center items-center w-15 h-8 ml-2 rounded-xl text-gray-600 hover:bg-orange-400'
               }`}
               onClick={() => handleRouter(item.path)}
             >
@@ -144,8 +160,35 @@ const NavBar = (props: any) => {
       );
     });
   };
+  const handleModalCancel = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+  const showModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+  const onChangeSearch = () => {
+    // 获取输入框中值
+    let searchVals = inputRef.current?.input?.value;
+    setSearchVal(searchVals);
+    // 获取文章列表数据
+    setTimeout(() => {
+      props.BlogActions.asyncArticleSearchListAction(1, 1, searchVals).then((res: any) => {
+        // 获取文章
+        let { data } = res.data;
+        setList(data);
+      });
+    }, 100);
+  };
+  // 点击文章名称跳转到详情页面
+  const handleSearchData = (id: any) => {
+    props.history.push(`/rblog/article/detail/${id}`);
+    // 模态框一刹那
+    setIsModalOpen(!isModalOpen);
+    // 搜索框置为空
+    setSearchVal('');
+  };
   return (
-    <nav className="shadow  md:bg-white fixed w-full h-16 change-color z-20 md:static">
+    <nav className="shadow md:bg-white fixed w-full h-16 change-color z-20 md:static">
       <div className="flex justify-between h-16">
         <div className="flex">
           <div className="hidden md:block">
@@ -180,26 +223,79 @@ const NavBar = (props: any) => {
               )}
             </div>
           </div>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <span className="text-xl ml-2 md:text-base md:ml-2">夜雨炊烟</span>
           </div>
+          {/* navbar显示隐藏 */}
+          <div
+            className={`md:absolute md:z-10 md:bg-gray-600 md:w-full md:h-full md:opacity-20 md:transition-all ${
+              navbar ? 'md:block' : 'md:hidden'
+            }`}
+          ></div>
         </div>
-        {/* navbar显示隐藏 */}
-        <div
-          className={`md:absolute md:z-10 md:bg-gray-600 md:w-full md:h-full md:opacity-20 md:transition-all ${
-            navbar ? 'md:block' : 'md:hidden'
-          }`}
-        ></div>
         {/* 颜色主题 */}
-        <div className="flex md:flex">
+        <div className="flex items-center">
+          {/* 搜索框 */}
+          <div
+            className="flex items-center w-52 h-9 rounded-3xl border-2 border-solid border-indigo-500  cursor-pointer"
+            onClick={showModal}
+          >
+            <span className="text-gray-500 text-sm px-3">请输入需要搜索的内容</span>
+          </div>
           {/* 导航栏 */}
           {renderMenu(items)}
-          <div className="flex items-center mr-5 ml-2 md:flex md:items-center md:mr-2">
-            <Switcher />
-          </div>
         </div>
+        <div className="flex items-center mr-5 ml-2 md:flex md:items-center md:mr-2">
+          <Switcher />
+        </div>
+      </div>
+      {/* 模态框展示 */}
+      <div>
+        <Modal title="搜索文章" footer={[]} open={isModalOpen} onCancel={handleModalCancel}>
+          <Input
+            ref={inputRef}
+            prefix={
+              <SearchOutlined className="border border-solid border-b-0 border-t-0 border-l-0 border-gray-500 w-7 h-4 text-2xl mr-1 text-gray-500" />
+            }
+            placeholder="请输入需要搜索的文章"
+            className="h-9 mt-3"
+            onChange={() => onChangeSearch()}
+          />
+          <List
+            className={`${searchVal !== '' ? 'block' : 'hidden'} mt-2`}
+            size="small"
+            bordered
+            locale={{ emptyText: '暂无符合条件的数据' }}
+            pagination={false}
+            rowKey={(item: any) => {
+              return item._id;
+            }}
+            loading={props.isLoading}
+            dataSource={list}
+            renderItem={item => (
+              <List.Item className="cursor-pointer" onClick={() => handleSearchData(item._id)}>
+                {item.title}
+              </List.Item>
+            )}
+          />
+
+          <div className={`hidden ${list.length === 0 ? 'block' : 'hidden'}`}>
+            暂无符合条件的数据
+          </div>
+        </Modal>
       </div>
     </nav>
   );
 };
-export default withRouter(NavBar);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    BlogActions: bindActionCreators(BlogActions, dispatch),
+  };
+};
+// 将状态映射为属性
+const mapStateToProps = (state: any) => {
+  return {
+    isLoading: state.LoadingReducer.isLoading,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavBar));

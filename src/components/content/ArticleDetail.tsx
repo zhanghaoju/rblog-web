@@ -30,7 +30,7 @@ const ArticleDetail = (props: any) => {
       });
       setList(dataFilter);
     });
-  }, [props.BlogActions]);
+  }, [props.BlogActions, props.match]);
 
   return (
     <>

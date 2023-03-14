@@ -27,14 +27,20 @@ const api = {
   getArticleAllList(status: any, publishStatus: any) {
     return axios.get(`/iblog/article/all?status=${status}&&publishStatus=${publishStatus}`);
   },
+  // 搜索
+  getArticleSearchList(status: any, publishStatus: any, title: any) {
+    return axios.get(
+      `/iblog/article/search?status=${status}&&publishStatus=${publishStatus}&&title=${title}`
+    );
+  },
   // 更新访问量
   updateArticleViews(params: any) {
     return axios.put(`/iblog/article/views/${params.id}`, params);
   },
   // 获取评论列表
-  getArticleComments(page: any, pageSize: any, articleTitle: any, auditStatus: any) {
+  getArticleComments(page: any, pageSize: any, articleTitle: any) {
     return axios.get(
-      `/iblog/article/comments?page=${page}&&pageSize=${pageSize}&&articleTitle=${articleTitle}&&auditStatus=${auditStatus}`
+      `/iblog/article/comments?page=${page}&&pageSize=${pageSize}&&articleTitle=${articleTitle}`
     );
   },
   // 新增评论

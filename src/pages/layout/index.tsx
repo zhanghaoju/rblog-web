@@ -6,12 +6,17 @@ const Tags = lazy(() => import('@/pages/tags'));
 const TimeLine = lazy(() => import('@/pages/timeline'));
 const About = lazy(() => import('@/pages/about'));
 const Message = lazy(() => import('@/pages/message'));
-const Informal = lazy(() => import('@/pages/informal'));
+const Friendly = lazy(() => import('@/pages/friendly'));
+const Essay = lazy(() => import('@/pages/essay'));
 const ArticleDetail = lazy(() => import('@/components/content/ArticleDetail'));
 import NavBar from '@/components/header';
 import NotFound from '../404';
 import Footer from '@/components/footer';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 const LayoutIndex = (props: any) => {
+  NProgress.start();
+  NProgress.done();
   return (
     <div style={{ backgroundColor: '#ecedef' }}>
       <NavBar></NavBar>
@@ -26,8 +31,9 @@ const LayoutIndex = (props: any) => {
             <Route path="/rblog/category" component={Category}></Route>
             <Route path="/rblog/tags" component={Tags}></Route>
             <Route path="/rblog/timeline" component={TimeLine}></Route>
-            <Route path="/rblog/informal" component={Informal}></Route>
+            <Route path="/rblog/essay" component={Essay}></Route>
             <Route path="/rblog/message" component={Message}></Route>
+            <Route path="/rblog/friendly" component={Friendly}></Route>
             <Route path="/rblog/about" component={About}></Route>
             <Route path="*" component={Home}></Route>
           </Switch>

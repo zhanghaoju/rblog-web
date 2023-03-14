@@ -1,5 +1,7 @@
 import { message } from 'antd';
 import axios from 'axios';
+import store from '@/redux/store';
+import { CHANGE_LOADING } from '@/redux/constants';
 // 配置超时时间和跨域携带凭证
 axios.defaults.timeout = 20000;
 axios.defaults.withCredentials = true;
@@ -11,6 +13,11 @@ axios.interceptors.request.use(
     // console.log('获取token', token);
     // 写到请求头上
     token && (config.headers.Authorization = 'Bearer ' + token);
+    // 发送dispatch请求修改loading状态
+    store.dispatch({
+      type: CHANGE_LOADING,
+      isLoading: true,
+    });
     return config;
   },
   error => Promise.reject(error)
@@ -22,9 +29,19 @@ axios.defaults.validateStatus = (status: any) => /^(2|3)\d{2}$/.test(status);
 axios.interceptors.response.use(
   // 隐藏loading
   response => {
+    // 发送dispatch请求修改loading状态
+    store.dispatch({
+      type: CHANGE_LOADING,
+      isLoading: false,
+    });
     return response.data;
   },
   error => {
+    // 发送dispatch请求修改loading状态
+    store.dispatch({
+      type: CHANGE_LOADING,
+      isLoading: false,
+    });
     let { response } = error;
     let errMessage = '未知错误';
     if (response) {

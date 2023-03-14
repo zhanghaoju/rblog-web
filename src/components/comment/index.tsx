@@ -24,7 +24,7 @@ const ArticleComment = (props: any) => {
   // 当前第几页
   const [currentPage, setCurrentPage] = useState(1);
   // 每页显示条数
-  const [pageSize, setPageSize] = useState(8);
+  const [pageSize, setPageSize] = useState(10);
   // 是留言还是回复（1是留言，2是回复）
   const [type, setType] = useState(1);
   // 功能名称
@@ -41,7 +41,7 @@ const ArticleComment = (props: any) => {
   // 获取文章ID
   let articleId = props.match.params.id;
   useEffect(() => {
-    props.BlogActions.asyncArticleCommentsAction(currentPage, pageSize, articleTitle, 1).then(
+    props.BlogActions.asyncArticleCommentsAction(currentPage, pageSize, articleTitle).then(
       (res: any) => {
         // 获取评论数据
         let { data, totalCount, page, pageSize } = res.data;
@@ -66,8 +66,6 @@ const ArticleComment = (props: any) => {
       targetReplayId: replyObj._id || '-1',
       targetReplayContent: '',
       currentReplayContent: values.content,
-      auditTime: 0,
-      auditStatus: '1',
       avatar: 'http://dummyimage.com/100x100',
       email: values.email,
       nickName: values.nickname,
@@ -85,7 +83,7 @@ const ArticleComment = (props: any) => {
         }
       }, 2000);
       // 重新调用查询接口
-      props.BlogActions.asyncArticleCommentsAction(currentPage, pageSize, articleTitle, 1).then(
+      props.BlogActions.asyncArticleCommentsAction(currentPage, pageSize, articleTitle).then(
         (res: any) => {
           // 获取评论数据
           let { data, totalCount, page, pageSize } = res.data;
@@ -122,8 +120,6 @@ const ArticleComment = (props: any) => {
       //@ts-ignore
       targetReplayContent: `${values?.nickname}@${replyObj?.nickName} ${replyObj?.currentReplayContent}`,
       currentReplayContent: values.content,
-      auditTime: 0,
-      auditStatus: '1',
       avatar: 'http://dummyimage.com/100x100',
       email: values.email,
       nickName: values.nickname,
@@ -141,7 +137,7 @@ const ArticleComment = (props: any) => {
         }
       }, 1000);
       // 重新调用查询接口
-      props.BlogActions.asyncArticleCommentsAction(currentPage, pageSize, articleTitle, 1).then(
+      props.BlogActions.asyncArticleCommentsAction(currentPage, pageSize, articleTitle).then(
         (res: any) => {
           // 获取评论数据
           let { data, totalCount, page, pageSize } = res.data;
@@ -191,16 +187,14 @@ const ArticleComment = (props: any) => {
   // 跳转页数
   const onChangePage = (page: any, pageSize: any) => {
     // 重新调用接口将参数传递过去
-    props.BlogActions.asyncArticleCommentsAction(page, pageSize, articleTitle, 1).then(
-      (res: any) => {
-        // 获取评论数据
-        let { data, totalCount, page, pageSize } = res.data;
-        setCommentList(data);
-        setTotal(totalCount);
-        setCurrentPage(page);
-        setPageSize(pageSize);
-      }
-    );
+    props.BlogActions.asyncArticleCommentsAction(page, pageSize, articleTitle).then((res: any) => {
+      // 获取评论数据
+      let { data, totalCount, page, pageSize } = res.data;
+      setCommentList(data);
+      setTotal(totalCount);
+      setCurrentPage(page);
+      setPageSize(pageSize);
+    });
   };
   return (
     <div className="w-800 mx-auto mt-20">
